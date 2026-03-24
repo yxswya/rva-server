@@ -1,8 +1,9 @@
 import { cors } from "@elysiajs/cors";
 import { Elysia } from "elysia";
 import { openapi } from "@elysiajs/openapi";
-import { AuthController, AuthModel } from "./modules/auth";
 import { AuthService } from "./plugins/auth";
+
+import { AuthController, AuthModel } from "./modules/auth";
 
 const app = new Elysia()
   .use(cors())
