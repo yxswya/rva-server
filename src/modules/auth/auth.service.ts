@@ -3,6 +3,7 @@ import { db } from "../../db";
 import { users } from "../../db/schema/users";
 import { eq } from "drizzle-orm";
 import { JwtUtil } from "../../utils/jwt";
+import { PasswordUtil } from "../../utils/password";
 
 export class AuthService {
   static async signIn({ username, password }: SignInBody) {
@@ -11,7 +12,7 @@ export class AuthService {
       .from(users)
       .where(eq(users.username, username));
 
-    if (user && (await Bun.password.verify(password, user.password_hash))) {
+    if (user && (await PasswordUtil.verify(password, user.password_hash))) {
       const token = JwtUtil.sign({
         userId: user.id,
         username: user.username,
@@ -33,7 +34,7 @@ export class AuthService {
         .insert(users)
         .values({
           username,
-          password_hash: await Bun.password.hash(password, "bcrypt"),
+          password_hash: await PasswordUtil.hash(password),
         })
         .returning();
 
