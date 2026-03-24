@@ -5,7 +5,7 @@ import { SignInResponse } from "./auth.response";
 interface ServiceResult<T> {
   success: boolean;
   data?: T;
-  errorCode?: string;
+  errorCode?: number;
   errorMessage?: string;
 }
 
@@ -17,6 +17,8 @@ export abstract class AuthController {
     return {
       success: !!data,
       data,
+      errorCode: 500,
+      errorMessage: data ? "" : "账号或密码错误",
     };
   }
 
@@ -25,6 +27,8 @@ export abstract class AuthController {
     return {
       success: !!data,
       data,
+      errorCode: 500,
+      errorMessage: data ? "" : "账号或邮箱已被使用",
     };
   }
 }
