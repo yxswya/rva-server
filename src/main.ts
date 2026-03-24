@@ -12,7 +12,7 @@ const app = new Elysia()
     return app.get(
       "/auth/login",
       ({ body }) => {
-        return AuthController.doStuff(body);
+        return AuthController.signIn(body);
       },
       {
         body: AuthModel.signInBody,

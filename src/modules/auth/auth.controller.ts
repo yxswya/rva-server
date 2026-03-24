@@ -1,8 +1,8 @@
 import { AuthService } from "./auth.service";
-import { LoginBody } from "./auth.type";
+import { SignInBody } from "./auth.model";
 
 export abstract class AuthController {
-  static doStuff(body: LoginBody) {
-    return AuthService.doStuff(body);
+  static signIn(body: SignInBody) {
+    return AuthService.signIn(body);
   }
 }

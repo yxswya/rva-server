@@ -1,5 +1,5 @@
-import { LoginBody } from "./auth.type";
+import { SignInBody } from "./auth.model";
 
 export class AuthService {
-  static doStuff(stuff: LoginBody) {}
+  static signIn({ username, password }: SignInBody) {}
 }

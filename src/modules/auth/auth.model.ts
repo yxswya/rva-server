@@ -1,4 +1,4 @@
-import { t } from "elysia";
+import { t, UnwrapSchema } from "elysia";
 
 export const AuthModel = {
   signInBody: t.Object({
@@ -6,3 +6,5 @@ export const AuthModel = {
     password: t.String(),
   }),
 };
+
+export type SignInBody = UnwrapSchema<typeof AuthModel.signInBody>;
