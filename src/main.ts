@@ -10,15 +10,13 @@ const app = new Elysia()
   .use(openapi())
   .use(AuthService)
   .group("/api/v1", (app) => {
-    return app.get(
-      "/auth/login",
-      ({ body }) => {
-        return AuthController.signIn(body);
-      },
-      {
+    return app
+      .post("/auth/sign-in", ({ body }) => AuthController.signIn(body), {
         body: AuthModel.signInBody,
-      },
-    );
+      })
+      .post("/auth/sign-up", ({ body }) => AuthController.signIn(body), {
+        body: AuthModel.signInBody,
+      });
   })
   .listen(3010);
 

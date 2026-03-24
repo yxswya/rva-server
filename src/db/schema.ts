@@ -12,8 +12,13 @@ export const users = sqliteTable(
     email: text("email").unique(),
 
     deleted_at: integer("deleted_at", { mode: "timestamp_ms" }),
-    created_at: integer("created_at", { mode: "timestamp_ms" }).notNull(),
-    updated_at: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
+    created_at: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .$defaultFn(() => new Date()),
+    updated_at: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .$defaultFn(() => new Date())
+      .$onUpdateFn(() => new Date()),
   },
   (table) => [
     index("username_idx").on(table.username),
