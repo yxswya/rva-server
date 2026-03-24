@@ -2,6 +2,7 @@ import { SignInBody, SignUpBody } from "./auth.model";
 import { db } from "../../db";
 import { users } from "../../db/schema";
 import { eq } from "drizzle-orm";
+import { JwtUtil } from "../../utils/jwt";
 
 export class AuthService {
   static async signIn({ username, password }: SignInBody) {
@@ -11,17 +12,19 @@ export class AuthService {
       .where(eq(users.username, username));
 
     if (user && (await Bun.password.verify(password, user.password_hash))) {
-      const {
-        created_at,
-        deleted_at,
-        updated_at,
-        password_hash,
-        ...UnWithPassword
-      } = user;
-      return UnWithPassword;
-    } else {
-      return undefined;
+      const token = JwtUtil.sign({
+        userId: user.id,
+        username: user.username,
+      });
+      return {
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+        },
+      };
     }
+    return undefined;
   }
 
   static async signUp({ username, password }: SignUpBody) {
@@ -34,9 +37,20 @@ export class AuthService {
         })
         .returning();
 
-      return user;
+      const token = JwtUtil.sign({
+        userId: user.id,
+        username: user.username,
+      });
+      return {
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+        },
+      };
     } catch (err) {
       console.log("err:", err);
+      return undefined;
     }
   }
 }

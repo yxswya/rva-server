@@ -12,8 +12,10 @@
     "@elysiajs/cors": "^1.4.1",
     "@elysiajs/jwt": "^1.4.1",
     "@elysiajs/openapi": "^1.4.14",
+    "@types/jsonwebtoken": "^9.0.10",
     "drizzle-orm": "^0.45.1",
     "elysia": "latest",
+    "jsonwebtoken": "^9.0.3",
     "nanoid": "^5.1.7"
   },
   "devDependencies": {
