@@ -9,7 +9,7 @@ export const sessions = sqliteTable("sessions", {
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  title: text("session_title"),
+  title: text("title").notNull(),
 
   deleted_at: integer("deleted_at", { mode: "timestamp_ms" }),
   created_at: integer("created_at", { mode: "timestamp_ms" })
@@ -20,3 +20,6 @@ export const sessions = sqliteTable("sessions", {
     .$defaultFn(() => new Date())
     .$onUpdateFn(() => new Date()),
 });
+
+export type InsertSession = typeof sessions.$inferInsert
+export type SelectSession = typeof sessions.$inferSelect

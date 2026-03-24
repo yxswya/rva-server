@@ -12,8 +12,7 @@ export const messages = sqliteTable("messages", {
   sessionId: text("session_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  content: text("content").notNull(),
-  type: text('type', { enum: ['text', 'image', 'json'] }).notNull().default('text'),
+  content: text("content", { mode: 'json' }).notNull(),
 
   deleted_at: integer("deleted_at", { mode: "timestamp_ms" }),
   created_at: integer("created_at", { mode: "timestamp_ms" })
@@ -24,3 +23,6 @@ export const messages = sqliteTable("messages", {
     .$defaultFn(() => new Date())
     .$onUpdateFn(() => new Date()),
 });
+
+export type InsertMessage = typeof messages.$inferInsert
+export type SelectMessage = typeof messages.$inferSelect

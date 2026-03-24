@@ -1,9 +1,10 @@
 import { cors } from "@elysiajs/cors";
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 import { openapi } from "@elysiajs/openapi";
 import { AuthService } from "./plugins/auth";
 
 import { AuthController, AuthModel } from "./modules/auth";
+import { SessionController } from "./modules/session/session.controller";
 
 const app = new Elysia()
   .use(cors())
@@ -11,6 +12,7 @@ const app = new Elysia()
   .use(AuthService)
   .group("/api/v1", (app) => {
     return app
+      // 账号认证
       .post("/auth/sign-in", ({ body }) => AuthController.signIn(body), {
         body: AuthModel.signInBody,
         response: AuthModel.signInResponse,
@@ -28,6 +30,25 @@ const app = new Elysia()
           summary: "用户注册",
           description: "创建新用户账户，成功后返回 JWT token",
         },
+      })
+      .post('/session/chat/:sessionId?', ({ body, user, params: { sessionId } }) => {
+        SessionController.chat(user.userId, sessionId, body)
+      }, {
+        body: t.Object({
+          text: t.String()
+        }),
+        params: t.Object({
+          sessionId: t.Optional(t.String())
+        }),
+        auth: true
+      })
+      .post('/train/:sessionId', () => { }, {
+        body: t.Object({
+
+        }),
+        params: t.Object({
+          session: t.String()
+        })
       });
   })
   .listen(3010);
