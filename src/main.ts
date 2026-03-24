@@ -14,8 +14,8 @@ const app = new Elysia()
       .post("/auth/sign-in", ({ body }) => AuthController.signIn(body), {
         body: AuthModel.signInBody,
       })
-      .post("/auth/sign-up", ({ body }) => AuthController.signIn(body), {
-        body: AuthModel.signInBody,
+      .post("/auth/sign-up", ({ body }) => AuthController.signUp(body), {
+        body: AuthModel.signUpBody,
       });
   })
   .listen(3010);
