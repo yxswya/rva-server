@@ -1,18 +1,14 @@
 import { bearer } from '@elysiajs/bearer'
-import { jwt } from '@elysiajs/jwt'
 import Elysia from 'elysia'
+import { JwtUtil, type JwtPayload } from '../utils/jwt'
+
+export type { JwtPayload }
 
 export const AuthService = new Elysia({ name: 'Auth.Service' })
-    .use(
-        jwt({
-            name: 'jwt',
-            secret: 'Fischl von Luftschloss Narfidort',
-        }),
-    )
     .use(bearer())
     .macro({
         auth: {
-            async resolve({ bearer, status, set, jwt }) {
+            resolve({ bearer, status, set }) {
                 if (!bearer) {
                     set.headers[
                         'WWW-Authenticate'
@@ -21,7 +17,7 @@ export const AuthService = new Elysia({ name: 'Auth.Service' })
                     return status(401, 'Unauthorized')
                 }
 
-                const payload = await jwt.verify(bearer)
+                const payload = JwtUtil.verify(bearer)
 
                 if (!payload) {
                     set.headers[

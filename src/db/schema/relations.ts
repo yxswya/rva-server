@@ -7,15 +7,16 @@ export const usersRelations = relations(users, ({ many }) => ({
   sessions: many(sessions),
 }));
 
-export const sessionsRelations = relations(sessions, ({ one }) => ({
+export const sessionsRelations = relations(sessions, ({ one, many }) => ({
   user: one(users, {
     fields: [sessions.userId],
     references: [users.id],
   }),
+  messages: many(messages)
 }));
 
 export const messagesRelations = relations(messages, ({ one, many }) => ({
-  sessions: one(sessions, {
+  session: one(sessions, {
     fields: [messages.sessionId],
     references: [sessions.id],
   }),
