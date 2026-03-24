@@ -1,18 +1,13 @@
 import { AuthService } from "./auth.service";
-import { SignInBody, SignUpBody } from "./auth.model";
-import { SignInResponse } from "./auth.response";
-
-interface ServiceResult<T> {
-  success: boolean;
-  data?: T;
-  errorCode?: number;
-  errorMessage?: string;
-}
+import {
+  SignInBody,
+  SignUpBody,
+  SignInResponse,
+  SignUpResponse,
+} from "./auth.model";
 
 export abstract class AuthController {
-  static async signIn(
-    body: SignInBody,
-  ): Promise<ServiceResult<SignInResponse>> {
+  static async signIn(body: SignInBody): Promise<SignInResponse> {
     const data = await AuthService.signIn(body);
     return {
       success: !!data,
@@ -22,7 +17,7 @@ export abstract class AuthController {
     };
   }
 
-  static async signUp(body: SignUpBody) {
+  static async signUp(body: SignUpBody): Promise<SignUpResponse> {
     const data = await AuthService.signUp(body);
     return {
       success: !!data,
