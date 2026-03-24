@@ -1,12 +1,23 @@
 import { cors } from "@elysiajs/cors";
 import { Elysia } from "elysia";
 import { openapi } from "@elysiajs/openapi";
+import { AuthController, AuthModel } from "./modules/auth";
+import { AuthService } from "./plugins/auth";
 
 const app = new Elysia()
   .use(cors())
   .use(openapi())
+  .use(AuthService)
   .group("/api/v1", (app) => {
-    return app;
+    return app.get(
+      "/auth/login",
+      ({ body }) => {
+        return AuthController.doStuff(body);
+      },
+      {
+        body: AuthModel.signInBody,
+      },
+    );
   })
   .listen(3010);
 
