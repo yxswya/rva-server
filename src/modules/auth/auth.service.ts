@@ -1,6 +1,6 @@
 import { SignInBody, SignUpBody } from "./auth.model";
 import { db } from "../../db";
-import { users } from "../../db/schema";
+import { users } from "../../db/schema/users";
 import { eq } from "drizzle-orm";
 import { JwtUtil } from "../../utils/jwt";
 
