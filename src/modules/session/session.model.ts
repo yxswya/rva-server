@@ -5,6 +5,9 @@ export const SessionModel = {
   chatBody: t.Object({
     text: t.String(),
   }),
+  chatParams: t.Object({
+    sessionId: t.Optional(t.String()),
+  }),
 }
 
 export type ChatBody = UnwrapSchema<typeof SessionModel.chatBody>

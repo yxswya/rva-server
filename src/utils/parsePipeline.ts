@@ -98,6 +98,7 @@ export interface ParseIntentResponse {
   }
 }
 
+// 同一个接口会返回俩种不同的格式按照 stage 进行区分
 export type MessageContent = ParseAnswerResponse | ParseIntentResponse
 
 // 意图识别接口

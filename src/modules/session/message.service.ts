@@ -17,6 +17,7 @@ export class Message implements OnlyOne {
       const [newMessage] = await tx
         .insert(messages)
         .values({
+          id: this.id,
           senderId,
           sessionId: this.session.id,
           content,

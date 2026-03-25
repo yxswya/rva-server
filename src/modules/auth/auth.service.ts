@@ -18,7 +18,8 @@ export class AuthService {
         username: user.username,
       })
       return {
-        token,
+        access_token: token,
+        refresh_token: token,
         user: {
           id: user.id,
           username: user.username,
@@ -43,7 +44,8 @@ export class AuthService {
         username: user.username,
       })
       return {
-        token,
+        access_token: token,
+        refresh_token: token,
         user: {
           id: user.id,
           username: user.username,
@@ -54,5 +56,12 @@ export class AuthService {
       console.log('err:', err)
       return undefined
     }
+  }
+
+  static async getUserInfo(userId: string) {
+    const [user] = await db.select().from(users).where(eq(users.id, userId))
+    const { password_hash, ...UnWithPassword } = (user || {})
+
+    return UnWithPassword
   }
 }

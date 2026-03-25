@@ -26,4 +26,9 @@ export abstract class AuthController {
       errorMessage: data ? '' : '账号或邮箱已被使用',
     }
   }
+
+  static async userInfo(userId: string) {
+    const data = await AuthService.getUserInfo(userId)
+    return data
+  }
 }

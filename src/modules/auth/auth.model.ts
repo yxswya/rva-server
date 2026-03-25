@@ -7,7 +7,8 @@ export const UserSchema = t.Object({
 })
 
 export const AuthDataSchema = t.Object({
-  token: t.String(),
+  access_token: t.String(),
+  refresh_token: t.String(),
   user: UserSchema,
 })
 
