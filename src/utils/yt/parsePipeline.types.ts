@@ -1,5 +1,3 @@
-import { request } from './request'
-
 export interface Success<T> {
   code: number
   message: string
@@ -11,7 +9,7 @@ export interface Option {
   label: string
 }
 
-// 问题
+/** 问题 */
 export interface ClarificationQuestion {
   id: string
   question: string
@@ -20,7 +18,7 @@ export interface ClarificationQuestion {
   options: Option[]
 }
 
-// 完整性识别
+/** 完整性识别 */
 export interface ParseAnswerResponse {
   stage: 'completeness'
   answer: {
@@ -98,22 +96,5 @@ export interface ParseIntentResponse {
   }
 }
 
-// 同一个接口会返回俩种不同的格式按照 stage 进行区分
+/** 同一个接口会返回俩种不同的格式按照 stage 进行区分 */
 export type MessageContent = ParseAnswerResponse | ParseIntentResponse
-
-// 意图识别接口
-export async function parsePipeline(sessionId: string, text: string): Promise<unknown> {
-  try {
-    const result = await request('/parse/pipeline', {
-      session_id: sessionId,
-      text,
-      content: text,
-      run_quality_check: false,
-    }) as Success<MessageContent>
-
-    return result.data
-  }
-  catch (error) {
-    console.error('[ParsePipeline Error]', error)
-  }
-}

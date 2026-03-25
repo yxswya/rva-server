@@ -1,10 +1,14 @@
-import type { ChatBody } from './session.model'
+import type { ChatBody, CreateSessionBody } from './session.model'
 import { eventBus } from '../../utils/eventBus'
-import { parsePipeline } from '../../utils/parsePipeline'
+import { parsePipeline } from '../../utils/yt/parsePipeline'
 import { Message } from './message.service'
 import { Session } from './session.service'
 
 export abstract class SessionController {
+  static async create(userId: string, body: CreateSessionBody) {
+    return Session.create(userId, body.title)
+  }
+
   static async chat(userId: string, sessionId: string | undefined, { text }: ChatBody) {
     const session = new Session(userId, sessionId)
     await session.ensureSession()

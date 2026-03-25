@@ -1,11 +1,13 @@
 import type { SSEPayload } from './utils/sse'
 import { cors } from '@elysiajs/cors'
 import { openapi } from '@elysiajs/openapi'
-import { Elysia, sse, t } from 'elysia'
-import { AuthController, AuthModel } from './modules/auth'
+import { Elysia, sse } from 'elysia'
 
+import { AuthController, AuthModel } from './modules/auth'
 import { SessionController } from './modules/session/session.controller'
 import { SessionModel } from './modules/session/session.model'
+import { TrainService } from './modules/session/train.service'
+
 import { AuthService } from './plugins/auth'
 import { eventBus } from './utils/eventBus'
 import { createAsyncQueue, toSSEPayload } from './utils/sse'
@@ -39,6 +41,17 @@ const app = new Elysia()
       // 获取用户信息
       .get('/auth/me', ({ user }) => AuthController.userInfo(user.userId), {
         auth: true,
+      })
+      // 创建会话
+      .post('/session', ({ user, body }) => SessionController.create(user.userId, body), {
+        body: SessionModel.createSessionBody,
+        response: SessionModel.createSessionResponse,
+        auth: true,
+        detail: {
+          tags: ['Session'],
+          summary: '创建会话',
+          description: '创建一个新的聊天会话',
+        },
       })
       // 聊天
       .post(
@@ -95,13 +108,9 @@ const app = new Elysia()
         params: SessionModel.chatParams,
         auth: true,
       })
-      .post('/train/:sessionId', () => { }, {
-        body: t.Object({
-
-        }),
-        params: t.Object({
-          session: t.String(),
-        }),
+      .post('/session/train/:sessionId', ({ body, params: { sessionId } }) => TrainService.start(sessionId, body), {
+        body: SessionModel.createTrainBody,
+        params: SessionModel.chatParams,
       })
   })
   .listen(3010)
