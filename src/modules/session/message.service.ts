@@ -65,9 +65,7 @@ export class Message {
 
       await tx
         .update(sessions)
-        .set({
-          updated_at: new Date(),
-        })
+        .set({ updated_at: new Date() })
         .where(eq(sessions.id, sessionId))
 
       return updateMessage

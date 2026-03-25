@@ -9,7 +9,7 @@ export class Session {
     this.id = id || nanoid()
   }
 
-  static async createSession(userId: string, title: string) {
+  static async create(userId: string, title: string) {
     const [newSession] = await db
       .insert(sessions)
       .values({ userId, title })
