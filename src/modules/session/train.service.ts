@@ -12,10 +12,8 @@ export class TrainService {
     if (!sessionId)
       return
 
-    console.log(sessionId)
     const session = new Session(userId, sessionId)
     await session.ensureSession()
-    console.log(session.id)
 
     const message = new Message(session)
     const newMessage = await message.create('bot-id', JSON.stringify({
@@ -76,7 +74,6 @@ export class TrainService {
         statusMessage: '知识库构建中...',
         content: '',
       }))
-      console.log(`chat-${session.id}`, updateMessage3)
       eventBus.emit(`chat-${session.id}`, updateMessage3)
 
       const updateMessage4 = await message.update(JSON.stringify({

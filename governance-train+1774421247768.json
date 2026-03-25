@@ -1,0 +1,115 @@
+{
+  "answer": {
+    "governance": [
+      {
+        "dataset_id": "ds_4b0c377500d1",
+        "cleaned_dataset_path": "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned\\std_samples.jsonl",
+        "cleaned_dir": "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned",
+        "reports": {
+          "ingest": {},
+          "cleaning": {},
+          "compliance": {},
+          "valuation": {}
+        },
+        "summary": {
+          "name": "美团_200.csv",
+          "task_type": "rag",
+          "risk_level": null,
+          "quality_score": null,
+          "pii_count": 0
+        },
+        "storage": {
+          "raw_dir": "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\raw",
+          "cleaned_dir": "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned",
+          "quality_report": "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned\\quality_report.json",
+          "manifest": "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned\\manifest.json",
+          "samples_file": "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned\\samples.jsonl",
+          "standard_samples_file": "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned\\std_samples.jsonl"
+        }
+      }
+    ],
+    "rag": {
+      "run_id": "rag_2f58b8b0",
+      "stage": "rag_build",
+      "cached": false,
+      "inputs": {
+        "rag_cfg": {
+          "backend": "milvus",
+          "embedder": "sentence-transformers/all-MiniLM-L6-v2",
+          "dim": 384,
+          "metric": "cosine",
+          "chunk": {
+            "size": 800,
+            "overlap": 120
+          }
+        },
+        "dataset_ids": [
+          "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned\\std_samples.jsonl"
+        ],
+        "clean_id": null
+      },
+      "artifacts": {
+        "index_version": "idx_024c8c49",
+        "index_uri": "file://indices\\idx_024c8c49",
+        "manifest_uri": "file://indices/idx_024c8c49/manifest.json",
+        "embedder": "sentence-transformers/all-MiniLM-L6-v2",
+        "metric": "cosine",
+        "dim": 384
+      },
+      "elapsed_ms": 29345,
+      "stats": {
+        "dataset_summary": {
+          "total": 1,
+          "bytes": 9624,
+          "sources": [
+            "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned\\std_samples.jsonl"
+          ],
+          "fallback": [],
+          "errors": []
+        },
+        "chunk_distribution": {
+          "min": 190,
+          "max": 800,
+          "avg": 698,
+          "count": 6
+        },
+        "embedding_dim": 384,
+        "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+      },
+      "warnings": []
+    },
+    "train": {
+      "run_id": "train_b05fd8b7",
+      "stage": "train",
+      "cached": false,
+      "inputs": {
+        "train_cfg": {
+          "method": "lora",
+          "base_model": "facebook/opt-125m",
+          "epochs": 1,
+          "batch_size": 1,
+          "max_seq_len": 256,
+          "dataset_uris": [
+            "E:\\Yutong-main\\Yutong-main\\data_governance_agent\\storage\\datasets\\ds_4b0c377500d1\\cleaned\\std_samples.jsonl"
+          ]
+        }
+      },
+      "artifacts": {
+        "ckpt_id": "hf_e16f607e",
+        "ckpt_uri": "file://runs\\train\\hf_e16f607e",
+        "mlflow_run": "951531bab6e749c58f4ae3fc30f5e83a"
+      },
+      "metrics": {
+        "train_loss": 3.049485871286103
+      },
+      "early_stop": false,
+      "elapsed_ms": 32830
+    }
+  },
+  "confidence": 0.9,
+  "sources": [
+    "file://indices\\idx_024c8c49",
+    "file://runs\\train\\hf_e16f607e"
+  ],
+  "error": null
+}
