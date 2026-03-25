@@ -21,8 +21,9 @@ export abstract class SessionController {
       content: '正在思考中...',
     }))
 
-    processChat(botMessage.session.id, text)
+    parsePipeline(botMessage.session.id, text)
       .then((data) => {
+        console.log('data', data)
         botMessage.update(JSON.stringify(data))
       })
       .catch((error) => {
@@ -35,15 +36,5 @@ export abstract class SessionController {
       })
 
     return { sessionId: session.id, userMessageId, botMessageId }
-  }
-}
-
-async function processChat(sessionId: string, text: string) {
-  try {
-    const result = await parsePipeline(sessionId, text)
-    return result.data
-  }
-  catch (error) {
-    console.error('[ParsePipeline Error]', error)
   }
 }
