@@ -1,6 +1,7 @@
 import type { DatasetFileMetas, GovernanceRagTrainResponse, RagConfig, Success, TrainConfig } from './governanceRagTrain.types'
 import { fileToArray } from '../common'
 import { request } from '../request'
+// import sj from './out.json'
 
 export * from './governanceRagTrain.types'
 
@@ -23,7 +24,7 @@ export async function governanceRagTrain(
   files: File[],
   rag_cfg?: RagConfig,
   train_cfg?: TrainConfig,
-): Promise<unknown> {
+): Promise<GovernanceRagTrainResponse> {
   const trainCfg = {
     method: train_cfg?.method ?? DEFAULT_TRAIN_CFG.method,
     base_model: train_cfg?.base_model ?? DEFAULT_TRAIN_CFG.base_model,
@@ -65,8 +66,10 @@ export async function governanceRagTrain(
     const result = await request('/data/governance/rag/train/from-files', formData) as Success<GovernanceRagTrainResponse>
     Bun.write(`./governance-train+${Date.now()}.json`, JSON.stringify(result.data, null, 2))
     return result.data
+    // return sj
   }
   catch (error) {
     console.error('[ParsePipeline Error]', error)
+    throw error
   }
 }

@@ -108,9 +108,10 @@ const app = new Elysia()
         params: SessionModel.chatParams,
         auth: true,
       })
-      .post('/session/train/:sessionId', ({ body, params: { sessionId } }) => TrainService.start(sessionId, body), {
+      .post('/session/train/:sessionId', ({ body, params: { sessionId }, user }) => TrainService.start(user.userId, sessionId, body), {
         body: SessionModel.createTrainBody,
         params: SessionModel.chatParams,
+        auth: true,
       })
   })
   .listen(3010)
