@@ -1,4 +1,4 @@
-export { AuthController } from "./auth.controller";
-export { AuthService } from "./auth.service";
-export { AuthModel } from "./auth.model";
-export type * from "./auth.model";
+export { AuthController } from './auth.controller'
+export { AuthModel } from './auth.model'
+export type * from './auth.model'
+export { AuthService } from './auth.service'

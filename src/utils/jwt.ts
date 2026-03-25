@@ -1,10 +1,10 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken'
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'
 
 export interface JwtPayload {
-  userId: string;
-  username: string;
+  userId: string
+  username: string
 }
 
 export const JwtUtil = {
@@ -12,7 +12,7 @@ export const JwtUtil = {
    * 生成 JWT token
    */
   sign(payload: JwtPayload): string {
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: "7d" });
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' })
   },
 
   /**
@@ -21,9 +21,10 @@ export const JwtUtil = {
    */
   verify(token: string): JwtPayload | null {
     try {
-      return jwt.verify(token, JWT_SECRET) as JwtPayload;
-    } catch {
-      return null;
+      return jwt.verify(token, JWT_SECRET) as JwtPayload
+    }
+    catch {
+      return null
     }
   },
 
@@ -32,9 +33,10 @@ export const JwtUtil = {
    */
   decode(token: string): JwtPayload | null {
     try {
-      return jwt.decode(token) as JwtPayload;
-    } catch {
-      return null;
+      return jwt.decode(token) as JwtPayload
+    }
+    catch {
+      return null
     }
   },
-};
+}

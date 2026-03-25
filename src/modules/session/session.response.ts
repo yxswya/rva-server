@@ -1,3 +1,3 @@
-export type SignInResponse = {
-  username: string;
-};
+export interface SignInResponse {
+  username: string
+}

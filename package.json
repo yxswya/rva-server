@@ -1,11 +1,14 @@
 {
   "name": "rva-server",
+  "type": "module",
   "version": "1.0.50",
+  "module": "src/index.js",
   "scripts": {
     "db": "bun run generate && bun run migrate",
     "generate": "bunx drizzle-kit generate --dialect sqlite --schema ./src/db/schema/index.ts",
     "migrate": "bun run ./scripts/migrate.ts",
-    "dev": "bun run --watch src/main.ts"
+    "dev": "bun run --watch src/main.ts",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@elysiajs/bearer": "^1.4.3",
@@ -18,8 +21,10 @@
     "nanoid": "^5.1.7"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^7.7.3",
     "bun-types": "latest",
-    "drizzle-kit": "^0.31.10"
-  },
-  "module": "src/index.js"
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^10.1.0",
+    "typescript": "5"
+  }
 }
