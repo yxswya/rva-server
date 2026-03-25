@@ -11,25 +11,28 @@ export abstract class SessionController {
   }
 
   static async chat(userId: string, sessionId: string | undefined, { text }: ChatBody) {
-    if (!sessionId) {
-      sessionId = await SessionController.createSession(userId)
+    let actualSessionId = sessionId
+    if (!actualSessionId) {
+      actualSessionId = await SessionController.createSession(userId)
     }
 
     // 创建用户消息
-    const { id: userMessageId } = await SessionService.createMessage(userId, sessionId, JSON.stringify({
+    const { id: userMessageId } = await SessionService.createMessage(userId, actualSessionId, JSON.stringify({
       stage: 'user-text',
       content: text
     }));
 
     // 创建机器人回复消息
-    const { id: botMessageId } = await SessionService.createMessage('bot-id', sessionId, JSON.stringify({
+    const { id: botMessageId } = await SessionService.createMessage('bot-id', actualSessionId, JSON.stringify({
       stage: 'bot-text',
       content: '正在思考中...'
     }))
 
-    processChat(sessionId, botMessageId, text).catch((error) => {
+    processChat(actualSessionId, botMessageId, text).catch((error) => {
       console.error('[Chat Error]', error)
     })
+
+    return { sessionId: actualSessionId, userMessageId, botMessageId }
   }
 }
 
@@ -41,6 +44,10 @@ async function processChat(sessionId: string, botMessageId: string, text: string
   }
   catch (error) {
     console.error('[ParsePipeline Error]', error)
-    throw error
+    // 更新 bot 消息为错误状态
+    await SessionService.updateMessage(sessionId, botMessageId, JSON.stringify({
+      stage: 'bot-error',
+      content: '处理失败，请重试'
+    }))
   }
 }

@@ -11,7 +11,7 @@ export class SessionService {
 
   static async createMessage(userId: string, sessionId: string, content: string) {
     return await db.transaction(async tx => {
-      const [newMessage] = await db.insert(messages).values({
+      const [newMessage] = await tx.insert(messages).values({
         senderId: userId,
         sessionId,
         content
